@@ -44,7 +44,7 @@ For Kubernetes nodes, switched from DHCP to static IP addressing through Proxmox
 Assigned the following IP addresses:
 | VM ID	| Hostname | IP Address |
 |---|---|---|
-| 201 | k8s-cp-0 | 110.10.10.201 |
+| 201 | k8s-cp-0 | 10.10.10.201 |
 | 202 | k8s-worker-01 | 10.10.10.202 |
 | 203 | k8s-worker-02 | 10.10.10.203 |
 
