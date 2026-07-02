@@ -48,3 +48,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Proxmox Ubuntu Cloud-Init Template](docs/proxmox-template.md)
 - [Kubernetes Cluster Setup](docs/kubernetes-cluster.md)
 - [Troubleshooting Notes](docs/troubleshooting.md)
+- [Application Deployment](docs/app-deployment.md)
