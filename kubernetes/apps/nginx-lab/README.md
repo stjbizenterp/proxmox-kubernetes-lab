@@ -44,9 +44,9 @@ curl http://10.10.10.203:30080
 Or open one of the following URLs in a browser:
 
 ```bash
-	http://10.10.10.201:30080
-	http://10.10.10.202:30080
-	http://10.10.10.203:30080
+http://10.10.10.201:30080
+http://10.10.10.202:30080
+http://10.10.10.203:30080
 ```
 
 ## Cleanup
