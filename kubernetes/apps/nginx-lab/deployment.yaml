@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-lab
+  namespace: devops-lab
+  labels:
+    app: nginx-lab
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-lab
+  template:
+    metadata:
+      labels:
+        app: nginx-lab
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:stable
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-html
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: nginx-html
+          configMap:
+            name: nginx-lab-html
