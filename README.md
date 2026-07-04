@@ -1,5 +1,7 @@
 # Proxmox Kubernetes DevOps Lab
 
+![Validate Kubernetes Manifests and Helm Chart](https://github.com/YOUR_GITHUB_USERNAME/proxmox-kubernetes-lab/actions/workflows/validate-kubernetes.yaml/badge.svg)
+
 ## Overview
 
 This repository documents my local DevOps lab built with Proxmox, Ubuntu, Kubernetes, Terraform, Ansible, CI/CD, and observability tooling.
