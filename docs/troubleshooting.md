@@ -105,3 +105,73 @@ cloud-init clean --logs
 ```
 
 This should help future DHCP-based clones request unique leases instead of reusing the same DHCP identity.
+
+## ImagePullBackOff During Deployment Update
+
+### Problem
+
+While testing Kubernetes troubleshooting, the application image tag was intentionally changed from a valid tag to an invalid tag.
+
+Original valid image:
+
+```text
+nginx:stable
+```
+
+Broken image:
+
+```text
+nginx:not-a-real-tag
+```
+
+After applying the manifest, the new pods failed to start and entered an `ImagePullBackOff` state.
+
+### Diagnosis
+
+Checked pod status:
+
+```bash
+kubectl get pods -n devops-lab
+```
+
+Described the failing pod:
+
+```bash
+kubectl describe pod POD_NAME -n devops-lab
+```
+
+The pod events showed that Kubernetes could not pull the invalid image tag.
+
+### Resolution
+
+The image tag was corrected in the deployment manifest:
+
+```yaml
+image: nginx:stable
+```
+
+Then the manifest was reapplied:
+
+```bash
+kubectl apply -f kubernetes/apps/nginx-lab/deployment.yaml
+```
+
+Verified that the pods recovered:
+
+```bash
+kubectl get pods -n devops-lab -w
+```
+
+### Skills Practiced
+
+- Identifying failed pod states
+
+- Using `kubectl describe pod`
+
+- Reading Kubernetes event messages
+
+- Fixing a bad container image reference
+
+- Reapplying a corrected manifest
+
+- Watching rollout recovery
