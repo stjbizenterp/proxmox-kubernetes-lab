@@ -1,6 +1,6 @@
 # Proxmox Kubernetes DevOps Lab
 
-![Validate Kubernetes Manifests and Helm Chart](https://github.com/YOUR_GITHUB_USERNAME/proxmox-kubernetes-lab/actions/workflows/validate-kubernetes.yaml/badge.svg)
+![Validate Kubernetes Manifests and Helm Chart](https://github.com/stjbizenterp/proxmox-kubernetes-lab/actions/workflows/validate-kubernetes.yaml/badge.svg)
 
 ## Overview
 
