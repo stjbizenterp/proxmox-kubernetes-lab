@@ -58,7 +58,9 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [x] Converted application manifests to a Helm chart
 - [x] Added Helm values for configurable deployments
 - [x] Practiced Helm upgrade and rollback
-- [ ] Add GitHub Actions YAML validation
+- [x] Added GitHub Actions YAML validation
+- [x] Added Helm chart linting in CI
+- [x] Added Kubernetes manifest schema validation in CI
 - [ ] Add Kubernetes manifest linting
 - [ ] Build a custom container image
 - [ ] Push image to a container registry
@@ -76,3 +78,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Application Deployment](docs/app-deployment.md)
 - [Kubernetes Ingress](docs/ingress.md)
 - [Helm](docs/helm.md)
+- [GitHub Actions](docs/github-actions.md)
