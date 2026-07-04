@@ -15,6 +15,7 @@ The application is used to practice Kubernetes workload management, services, Co
 | `deployment.yaml` | Deploys three NGINX replicas |
 | `service.yaml` | Creates an internal ClusterIP service |
 | `nodeport.yaml` | Exposes the app externally on NodePort `30080` |
+| `ingress.yaml` | Routes hostname-based HTTP traffic to the app through NGINX Ingress |
 
 ## Deploy
 
@@ -47,6 +48,28 @@ Or open one of the following URLs in a browser:
 http://10.10.10.201:30080
 http://10.10.10.202:30080
 http://10.10.10.203:30080
+```
+
+## Ingress Access
+
+The application can also be accessed through NGINX Ingress.
+
+Ingress host:
+
+```text
+nginx-lab.10.10.10.201.nip.io
+```
+
+Because the ingress controller is exposed through NodePort `30081`, access the app with:
+
+```bash
+curl http://nginx-lab.10.10.10.201.nip.io:30081
+```
+
+Or open:
+
+```text
+http://nginx-lab.10.10.10.201.nip.io:30081
 ```
 
 ## Cleanup
