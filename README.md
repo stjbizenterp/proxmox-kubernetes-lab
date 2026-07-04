@@ -34,12 +34,12 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [x] Created initial repository structure
 - [x] Created Ubuntu 24.04 cloud-init template
 - [x] Cloned Kubernetes VMs
-- [ ] Installed container runtime
-- [ ] Installed Kubernetes components
-- [ ] Initialized Kubernetes control plane
-- [ ] Joined worker nodes
-- [ ] Deployed test application
-- [ ] Added ingress controller
+- [x] Installed container runtime
+- [x] Installed Kubernetes components
+- [x] Initialized Kubernetes control plane
+- [x] Joined worker nodes
+- [x] Deployed test application
+- [x] Added ingress controller
 - [ ] Added monitoring stack
 - [ ] Added CI/CD pipeline
 
@@ -49,3 +49,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Kubernetes Cluster Setup](docs/kubernetes-cluster.md)
 - [Troubleshooting Notes](docs/troubleshooting.md)
 - [Application Deployment](docs/app-deployment.md)
+- [Kubernetes Ingress](docs/ingress.md)
