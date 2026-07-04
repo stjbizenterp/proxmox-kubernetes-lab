@@ -31,17 +31,27 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 ## Progress
 
 - [x] Created GitHub repository
-- [x] Created initial repository structure
 - [x] Created Ubuntu 24.04 cloud-init template
 - [x] Cloned Kubernetes VMs
-- [x] Installed container runtime
-- [x] Installed Kubernetes components
+- [x] Configured static IP addresses
+- [x] Installed containerd
+- [x] Installed `kubeadm`, `kubelet`, and `kubectl`
 - [x] Initialized Kubernetes control plane
 - [x] Joined worker nodes
-- [x] Deployed test application
-- [x] Added ingress controller
-- [ ] Added monitoring stack
-- [ ] Added CI/CD pipeline
+- [x] Installed Flannel CNI
+- [x] Deployed NGINX lab application from manifests
+- [x] Added ConfigMap, Deployment, ClusterIP Service, and NodePort Service
+- [x] Practiced scaling and troubleshooting
+- [x] Added NGINX Ingress Controller
+- [x] Added hostname-based Ingress routing
+- [x] Documented lab setup and troubleshooting notes
+- [ ] Convert application to Helm chart
+- [ ] Add GitHub Actions validation
+- [ ] Build and deploy custom container image
+- [ ] Add CI/CD deployment workflow
+- [ ] Add monitoring with Prometheus and Grafana
+- [ ] Add centralized logging
+- [ ] Automate infrastructure/configuration with Terraform and Ansible
 
 ## Documentation
 
