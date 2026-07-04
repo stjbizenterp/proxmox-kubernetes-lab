@@ -1,0 +1,42 @@
+namespace:
+  name: devops-lab
+
+app:
+  name: nginx-lab
+  labels:
+    app: nginx-lab
+
+replicaCount: 3
+
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+nodePort:
+  enabled: true
+  name: nginx-lab-nodeport
+  port: 80
+  targetPort: 80
+  nodePort: 30080
+
+ingress:
+  enabled: true
+  className: nginx
+  host: nginx-lab.10.10.10.201.nip.io
+  path: /
+  pathType: Prefix
+
+html:
+  title: DevOps Lab
+  heading: DevOps Lab App
+  body: This application is running on a Kubernetes cluster hosted on Proxmox.
+  namespaceText: devops-lab
+  footer: Managed with a Helm chart stored in GitHub.
+
+resources: {}

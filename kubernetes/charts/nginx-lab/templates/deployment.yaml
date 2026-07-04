@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.app.labels.app }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.labels.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.labels.app }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+            - name: nginx-html
+              mountPath: /usr/share/nginx/html/index.html
+              subPath: index.html
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.targetPort }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+      volumes:
+        - name: nginx-html
+          configMap:
+            name: {{ .Values.app.name }}-html

@@ -31,27 +31,40 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 ## Progress
 
 - [x] Created GitHub repository
+- [x] Created initial repository structure
 - [x] Created Ubuntu 24.04 cloud-init template
 - [x] Cloned Kubernetes VMs
-- [x] Configured static IP addresses
-- [x] Installed containerd
-- [x] Installed `kubeadm`, `kubelet`, and `kubectl`
+- [x] Configured static IP addresses for Kubernetes nodes
+- [x] Installed container runtime
+- [x] Installed Kubernetes components
 - [x] Initialized Kubernetes control plane
 - [x] Joined worker nodes
 - [x] Installed Flannel CNI
+- [x] Verified cluster node readiness
+- [x] Deployed test application imperatively with `kubectl`
+- [x] Created declarative Kubernetes manifests for lab application
 - [x] Deployed NGINX lab application from manifests
-- [x] Added ConfigMap, Deployment, ClusterIP Service, and NodePort Service
-- [x] Practiced scaling and troubleshooting
+- [x] Added ConfigMap-backed custom HTML page
+- [x] Added ClusterIP service
+- [x] Added NodePort service
+- [x] Practiced scaling deployment up and down
+- [x] Practiced troubleshooting `ImagePullBackOff`
 - [x] Added NGINX Ingress Controller
-- [x] Added hostname-based Ingress routing
-- [x] Documented lab setup and troubleshooting notes
-- [ ] Convert application to Helm chart
-- [ ] Add GitHub Actions validation
-- [ ] Build and deploy custom container image
+- [x] Added application Ingress resource
+- [x] Verified hostname-based ingress routing
+- [x] Documented cluster setup, application deployment, ingress, and troubleshooting
+- [x] Converted application manifests to a Helm chart
+- [x] Added Helm values for configurable deployments
+- [x] Practiced Helm upgrade and rollback
+- [ ] Add GitHub Actions YAML validation
+- [ ] Add Kubernetes manifest linting
+- [ ] Build a custom container image
+- [ ] Push image to a container registry
+- [ ] Deploy custom image to Kubernetes
 - [ ] Add CI/CD deployment workflow
-- [ ] Add monitoring with Prometheus and Grafana
+- [ ] Add Prometheus and Grafana monitoring
 - [ ] Add centralized logging
-- [ ] Automate infrastructure/configuration with Terraform and Ansible
+- [ ] Automate VM provisioning/configuration with Terraform and/or Ansible
 
 ## Documentation
 
@@ -60,3 +73,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Troubleshooting Notes](docs/troubleshooting.md)
 - [Application Deployment](docs/app-deployment.md)
 - [Kubernetes Ingress](docs/ingress.md)
+- [Helm](docs/helm.md)
