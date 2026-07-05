@@ -69,6 +69,9 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [x] Updated Helm chart to use custom image
 - [x] Disabled ConfigMap HTML override for image-based app content
 - [x] Deployed custom image to Kubernetes
+- [x] Replaced mutable `latest` deployment tag with immutable image tag
+- [x] Updated Helm image pull policy for immutable tag usage
+- [x] Verified deployment image and running pod image digest
 
 ## Documentation
 
@@ -80,3 +83,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Helm](docs/helm.md)
 - [GitHub Actions](docs/github-actions.md)
 - [Custom Container Image](docs/custom-image.md)
+- [Immutable Image Tags](docs/immutable-image-tags.md)
