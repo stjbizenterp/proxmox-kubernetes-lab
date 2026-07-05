@@ -8,6 +8,8 @@ This repository documents my local DevOps lab built with Proxmox, Ubuntu, Kubern
 
 The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, including infrastructure provisioning, Kubernetes administration, automation, CI/CD, monitoring, and troubleshooting.
 
+This lab uses immutable Git SHA-based container image tags for Kubernetes deployments instead of relying on the mutable `latest` tag.
+
 ## Current Lab Architecture
 
 | VM ID | Hostname | Role | vCPU | RAM | Disk | IP |
