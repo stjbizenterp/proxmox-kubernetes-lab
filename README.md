@@ -58,17 +58,12 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [x] Converted application manifests to a Helm chart
 - [x] Added Helm values for configurable deployments
 - [x] Practiced Helm upgrade and rollback
-- [x] Added GitHub Actions YAML validation
-- [x] Added Helm chart linting in CI
-- [x] Added Kubernetes manifest schema validation in CI
-- [ ] Add Kubernetes manifest linting
-- [ ] Build a custom container image
-- [ ] Push image to a container registry
-- [ ] Deploy custom image to Kubernetes
-- [ ] Add CI/CD deployment workflow
-- [ ] Add Prometheus and Grafana monitoring
-- [ ] Add centralized logging
-- [ ] Automate VM provisioning/configuration with Terraform and/or Ansible
+- [x] Added GitHub Actions validation workflow
+- [x] Added Helm linting to CI
+- [x] Added Helm template rendering to CI
+- [x] Added Kubernetes manifest schema validation to CI
+- [x] Tightened kubeconform validation by removing ignored missing schemas
+- [x] Practiced intentional CI failure and recovery
 
 ## Documentation
 
