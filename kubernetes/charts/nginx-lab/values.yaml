@@ -10,7 +10,7 @@ replicaCount: 3
 
 image:
   repository: ghcr.io/stjbizenterp/devops-lab-nginx
-  tag: bb05a03
+  tag: 262c3e2
   pullPolicy: IfNotPresent
 
 service:
