@@ -64,6 +64,11 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [x] Added Kubernetes manifest schema validation to CI
 - [x] Tightened kubeconform validation by removing ignored missing schemas
 - [x] Practiced intentional CI failure and recovery
+- [x] Built custom NGINX container image
+- [x] Published image to GitHub Container Registry
+- [x] Updated Helm chart to use custom image
+- [x] Disabled ConfigMap HTML override for image-based app content
+- [x] Deployed custom image to Kubernetes
 
 ## Documentation
 
@@ -74,3 +79,4 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 - [Kubernetes Ingress](docs/ingress.md)
 - [Helm](docs/helm.md)
 - [GitHub Actions](docs/github-actions.md)
+- [Custom Container Image](docs/custom-image.md)
