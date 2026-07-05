@@ -16,11 +16,13 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   packages: write
+  pull-requests: read
 
 env:
   IMAGE_NAME: devops-lab-nginx
+  VALUES_FILE: kubernetes/charts/nginx-lab/values.yaml
 
 jobs:
   build:
@@ -30,10 +32,16 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set lowercase image owner
         run: |
           echo "IMAGE_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_ENV"
+
+      - name: Set short SHA image tag
+        run: |
+          echo "IMAGE_TAG=${GITHUB_SHA::7}" >> "$GITHUB_ENV"
 
       - name: Log in to GitHub Container Registry
         if: github.event_name != 'pull_request'
@@ -49,7 +57,7 @@ jobs:
         with:
           images: ghcr.io/${{ env.IMAGE_OWNER }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=sha,prefix=
+            type=raw,value=${{ env.IMAGE_TAG }}
             type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build image for pull requests
@@ -68,3 +76,70 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Update Helm image repository and tag
+        if: github.event_name != 'pull_request'
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+
+          values_file = Path(os.environ["VALUES_FILE"])
+          image_owner = os.environ["IMAGE_OWNER"]
+          image_name = os.environ["IMAGE_NAME"]
+          image_tag = os.environ["IMAGE_TAG"]
+
+          repository = f"ghcr.io/{image_owner}/{image_name}"
+
+          text = values_file.read_text()
+
+          lines = text.splitlines()
+          output = []
+
+          in_image_block = False
+
+          for line in lines:
+              stripped = line.strip()
+
+              if line.startswith("image:"):
+                  in_image_block = True
+                  output.append(line)
+                  continue
+
+              if in_image_block and line and not line.startswith(" "):
+                  in_image_block = False
+
+              if in_image_block and stripped.startswith("repository:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  output.append(f"{indent}repository: {repository}")
+              elif in_image_block and stripped.startswith("tag:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  output.append(f"{indent}tag: {image_tag}")
+              elif in_image_block and stripped.startswith("pullPolicy:"):
+                  indent = line[:len(line) - len(line.lstrip())]
+                  output.append(f"{indent}pullPolicy: IfNotPresent")
+              else:
+                  output.append(line)
+
+          values_file.write_text("\n".join(output) + "\n")
+          PY
+
+      - name: Show Helm values diff
+        if: github.event_name != 'pull_request'
+        run: |
+          git diff -- "$VALUES_FILE"
+
+      - name: Commit updated Helm image tag
+        if: github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- "$VALUES_FILE"; then
+            echo "No Helm image tag changes to commit."
+            exit 0
+          fi
+
+          git add "$VALUES_FILE"
+          git commit -m "Update nginx lab image tag to ${IMAGE_TAG} [skip ci]"
+          git push
