@@ -175,3 +175,113 @@ kubectl get pods -n devops-lab -w
 - Reapplying a corrected manifest
 
 - Watching rollout recovery
+
+## GitHub Actions Validation Failure
+
+### Problem
+
+A CI validation failure was intentionally triggered to verify that the GitHub Actions workflow catches invalid Kubernetes manifests.
+
+The Deployment API version was temporarily changed from:
+
+```yaml
+apiVersion: apps/v1
+```
+
+to:
+
+```yaml
+apiVersion: apps/v999
+```
+
+### Diagnosis
+
+The GitHub Actions workflow failed during Kubernetes manifest validation.
+
+The workflow rendered the Helm chart with:
+
+```yaml
+helm template nginx-lab kubernetes/charts/nginx-lab
+```
+
+Then validated the rendered manifests with:
+
+```yaml
+kubeconform \
+  -strict \
+  -summary \
+  -ignore-missing-schemas \
+  rendered/nginx-lab.yaml
+```
+
+The invalid API version caused validation to fail.
+
+### Resolution
+
+The Deployment API version was corrected back to:
+
+```yaml
+apiVersion: apps/v1
+```
+
+After committing and pushing the fix, the GitHub Actions workflow completed successfully.
+
+### Skills Practiced
+- Creating a test branch
+- Triggering CI validation from a pull request
+- Reading GitHub Actions failure logs
+- Fixing invalid Kubernetes manifest configuration
+- Verifying CI recovery after a fix
+
+## Kubeconform Validation Was Initially Too Permissive
+
+### Problem
+
+During the first CI failure test, the Deployment API version was intentionally changed from:
+
+```yaml
+apiVersion: apps/v1
+```
+
+to:
+
+```yaml
+apiVersion: apps/v999
+```
+
+However, the GitHub Actions workflow still passed.
+
+### Cause
+
+The workflow used the following kubeconform flag:
+
+```bash
+-ignore-missing-schemas
+```
+
+Because apps/v999 did not match a known Kubernetes schema, kubeconform treated it as a missing schema and ignored it instead of failing the workflow.
+
+### Resolution
+
+The flag was removed from the validation command.
+
+Original command:
+
+```bash
+kubeconform \
+  -strict \
+  -summary \
+  -ignore-missing-schemas \
+  rendered/nginx-lab.yaml
+```
+
+Updated command:
+
+```bash
+kubeconform \
+  -strict \
+  -summary \
+  rendered/nginx-lab.yaml
+```
+
+After this change, invalid Kubernetes API versions are expected to fail CI validation.

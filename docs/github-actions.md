@@ -66,9 +66,10 @@ The rendered manifests are validated with kubeconform:
 kubeconform \
   -strict \
   -summary \
-  -ignore-missing-schemas \
   rendered/nginx-lab.yaml
 ```
+
+The workflow intentionally does not use `-ignore-missing-schemas` because this lab currently uses standard Kubernetes resources. This allows CI to fail when a resource uses an invalid or unsupported `apiVersion`.
 
 ## Skills Practiced
 
