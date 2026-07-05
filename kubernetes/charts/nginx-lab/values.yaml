@@ -34,7 +34,7 @@ ingress:
 
 html:
   title: DevOps Lab
-  heading: DevOps Lab App
+  heading: DevOps Lab App - Helm Managed
   body: This application is running on a Kubernetes cluster hosted on Proxmox.
   namespaceText: devops-lab
   footer: Managed with a Helm chart stored in GitHub.
