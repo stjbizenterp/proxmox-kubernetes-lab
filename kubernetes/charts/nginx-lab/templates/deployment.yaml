@@ -21,10 +21,12 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+{{- if .Values.configMapHtml.enabled }}
           volumeMounts:
             - name: nginx-html
               mountPath: /usr/share/nginx/html/index.html
               subPath: index.html
+{{- end }}
           readinessProbe:
             httpGet:
               path: /
@@ -39,7 +41,9 @@ spec:
             periodSeconds: 20
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.configMapHtml.enabled }}
       volumes:
         - name: nginx-html
           configMap:
             name: {{ .Values.app.name }}-html
+{{- end }}

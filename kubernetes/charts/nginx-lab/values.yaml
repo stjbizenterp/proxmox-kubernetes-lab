@@ -9,9 +9,9 @@ app:
 replicaCount: 3
 
 image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+  repository: ghcr.io/stjbizenterp/devops-lab-nginx
+  tag: latest
+  pullPolicy: Always
 
 service:
   type: ClusterIP
@@ -31,6 +31,9 @@ ingress:
   host: nginx-lab.10.10.10.201.nip.io
   path: /
   pathType: Prefix
+
+configMapHtml:
+  enabled: false
 
 html:
   title: DevOps Lab
