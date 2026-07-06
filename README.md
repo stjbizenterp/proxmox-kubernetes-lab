@@ -77,6 +77,12 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Automated Helm image tag updates after container builds
 - [x] Added GitHub Actions bot commits for image tag changes
 - [x] Documented lightweight release process
+- [x] Installed kube-prometheus-stack with Helm
+- [x] Deployed Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter
+- [x] Exposed Grafana through Ingress
+- [x] Exposed Prometheus through Ingress
+- [x] Verified Kubernetes metrics in Prometheus
+- [x] Explored Grafana dashboards
 
 ## Documentation
 
@@ -90,3 +96,4 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [Custom Container Image](docs/custom-image.md)
 - [Immutable Image Tags](docs/immutable-image-tags.md)
 - [Release Process](docs/release-process.md)
+- [Monitoring](docs/monitoring.md)
