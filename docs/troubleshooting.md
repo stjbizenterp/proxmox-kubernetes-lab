@@ -285,3 +285,109 @@ kubeconform \
 ```
 
 After this change, invalid Kubernetes API versions are expected to fail CI validation.
+
+## Prometheus Scrape Targets Bound to Localhost
+
+### Problem
+
+After installing `kube-prometheus-stack`, some Prometheus scrape targets were unavailable because their metrics endpoints were bound to localhost.
+
+Affected examples included:
+| Component | Port |
+|---|---|
+| kube-controller-manager | 10257 |
+| kube-scheduler | 10259 |
+| etcd | 2381 |
+| kube-proxy | 10249 |
+
+### Cause
+
+Some kubeadm-managed components bind metrics endpoints to 127.0.0.1 by default. Prometheus runs as a pod and attempts to scrape these endpoints using node IP addresses, so localhost-only bindings cause scrape failures.
+
+### Important Static Pod Backup Note
+
+Backups of static pod manifests must not be stored in:
+
+```text
+/etc/kubernetes/manifests/
+```
+
+The kubelet watches this directory and may try to process backup manifest files.
+
+Backups were moved to:
+
+```text
+/root/kubernetes-manifest-backups/
+```
+
+### Resolution
+
+For static pod components, the relevant metrics bind addresses were updated in the static pod manifests under:
+
+```text
+/etc/kubernetes/manifests/
+```
+
+For kube-controller-manager and kube-scheduler, the bind address was changed from:
+
+```yaml
+- --bind-address=127.0.0.1
+```
+
+to:
+
+```yaml
+- --bind-address=0.0.0.0
+```
+
+For etcd, the metrics listen URL was changed from:
+
+```yaml
+- --listen-metrics-urls=http://127.0.0.1:2381
+```
+
+to:
+
+```yaml
+- --listen-metrics-urls=http://0.0.0.0:2381
+```
+
+For kube-proxy, the kube-proxy ConfigMap was updated:
+
+```yaml
+metricsBindAddress: 0.0.0.0:10249
+```
+
+The kube-proxy DaemonSet was restarted:
+
+```bash
+kubectl rollout restart daemonset kube-proxy -n kube-system
+kubectl rollout status daemonset kube-proxy -n kube-system
+```
+
+### Verification
+
+Listening ports were checked with:
+
+```bash
+sudo ss -lntp | grep -E "10257|10259|2381|10249"
+```
+
+Metrics endpoints were tested with:
+
+```bash
+curl -k https://10.10.10.201:10257/metrics | head
+curl -k https://10.10.10.201:10259/metrics | head
+curl http://10.10.10.201:2381/metrics | head
+curl http://10.10.10.201:10249/metrics | head
+```
+
+Prometheus target status was verified in:
+
+```text
+Prometheus → Status → Targets
+```
+
+### Security Note
+
+Exposing metrics endpoints on all interfaces is acceptable for this isolated local lab. In production, these endpoints should be restricted with network controls, authentication, firewall rules, or environment-specific monitoring design.
