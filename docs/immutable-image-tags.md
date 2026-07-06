@@ -78,6 +78,14 @@ kubectl get pod nginx-lab-77f97c696d-xxqpr -n devops-lab \
   -o jsonpath='{.status.containerStatuses[0].image}{"\n"}{.status.containerStatuses[0].imageID}{"\n"}'
 ```
 
+## Automated Updates
+
+Image tags are updated automatically by GitHub Actions.
+
+When the custom NGINX app source changes, the workflow builds a new image, pushes it to GitHub Container Registry, and commits the new Git SHA-based tag into the Helm chart values file.
+
+This keeps deployments traceable while avoiding manual image tag updates.
+
 ## Skills Practiced
 
 - Understanding mutable vs immutable tags

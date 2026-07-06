@@ -71,6 +71,39 @@ kubeconform \
 
 The workflow intentionally does not use `-ignore-missing-schemas` because this lab currently uses standard Kubernetes resources. This allows CI to fail when a resource uses an invalid or unsupported `apiVersion`.
 
+## Automated Image Tag Updates
+
+The custom NGINX image build workflow updates the Helm chart image tag automatically after a successful image build.
+
+Workflow location:
+
+```text
+.github/workflows/build-nginx-image.yaml
+```
+
+When files under app/nginx/ are changed on the main branch, the workflow:
+
+1. Builds a custom NGINX container image
+
+2. Pushes the image to GitHub Container Registry
+
+3. Tags the image with the short Git commit SHA
+
+4. Updates the Helm chart image tag in values.yaml
+
+5. Commits the updated values.yaml back to main
+
+The updated Helm values file contains:
+
+```yaml
+image:
+  repository: ghcr.io/stjbizenterp/devops-lab-nginx
+  tag: SHORT_GIT_SHA
+  pullPolicy: IfNotPresent
+```
+
+This keeps Git as the desired state source for the currently deployable application image.
+
 ## Skills Practiced
 
 - GitHub Actions workflow creation

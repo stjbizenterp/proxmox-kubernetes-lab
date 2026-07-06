@@ -97,6 +97,23 @@ Expected heading:
 DevOps Lab App - Custom Container Image
 ```
 
+## Automated Tag Update Workflow
+
+The image build workflow automatically updates the Helm chart after pushing a new image.
+
+The workflow uses the short Git commit SHA as the image tag.
+
+Example:
+
+```yaml
+image:
+  repository: ghcr.io/YOUR_GITHUB_USERNAME/devops-lab-nginx
+  tag: abc1234
+  pullPolicy: IfNotPresent
+```
+
+This removes the need to manually copy image tags from GitHub Container Registry into the Helm chart.
+
 ## Skills Practiced
 
 - Writing a Dockerfile

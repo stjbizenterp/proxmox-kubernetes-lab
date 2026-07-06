@@ -74,6 +74,9 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Replaced mutable `latest` deployment tag with immutable image tag
 - [x] Updated Helm image pull policy for immutable tag usage
 - [x] Verified deployment image and running pod image digest
+- [x] Automated Helm image tag updates after container builds
+- [x] Added GitHub Actions bot commits for image tag changes
+- [x] Documented lightweight release process
 
 ## Documentation
 
@@ -86,3 +89,4 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [GitHub Actions](docs/github-actions.md)
 - [Custom Container Image](docs/custom-image.md)
 - [Immutable Image Tags](docs/immutable-image-tags.md)
+- [Release Process](docs/release-process.md)
