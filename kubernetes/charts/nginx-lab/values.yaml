@@ -41,6 +41,9 @@ serviceMonitor:
   labels:
     release: monitoring
 
+prometheusRule:
+  enabled: true
+
 html:
   title: DevOps Lab
   heading: DevOps Lab App - Helm Managed

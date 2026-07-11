@@ -1,0 +1,33 @@
+{{- if .Values.prometheusRule.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.app.name }}
+    release: monitoring
+spec:
+  groups:
+    - name: {{ .Values.app.name }}.rules
+      rules:
+        - alert: NginxLabDeploymentReplicasUnavailable
+          expr: kube_deployment_status_replicas_available{namespace="{{ .Values.namespace.name }}", deployment="{{ .Values.app.name }}"} < 1
+          for: 1m
+          labels:
+            severity: warning
+            app: {{ .Values.app.name }}
+          annotations:
+            summary: "Nginx Lab deployment has no available replicas"
+            description: "The {{ .Values.app.name }} deployment in namespace {{ .Values.namespace.name }} has had fewer than 1 available replica for more than 1 minute."
+
+        - alert: NginxLabHighRequestRate
+          expr: sum(rate(nginx_http_requests_total{namespace="{{ .Values.namespace.name }}"}[5m])) > 5
+          for: 1m
+          labels:
+            severity: info
+            app: {{ .Values.app.name }}
+          annotations:
+            summary: "Nginx Lab request rate is above threshold"
+            description: "The {{ .Values.app.name }} app is receiving more than 5 requests per second over a 5 minute window."
+{{- end }}
