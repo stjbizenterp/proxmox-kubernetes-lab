@@ -89,6 +89,17 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Verified app metrics in Prometheus
 - [x] Created basic Grafana panels for app metrics
 
+## Current Lab Capabilities
+
+- Provisioned a three-node Kubernetes cluster on Proxmox
+- Deployed an NGINX application using Helm
+- Exposed the application with NodePort and Ingress
+- Added an NGINX Prometheus exporter sidecar
+- Configured Prometheus scraping with a ServiceMonitor
+- Built Grafana panels for NGINX request and connection metrics
+- Added PrometheusRule alerts for app availability and request rate
+- Validated alert firing and recovery through Prometheus and Alertmanager
+
 ## Documentation
 
 - [Proxmox Ubuntu Cloud-Init Template](docs/proxmox-template.md)
@@ -103,3 +114,8 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [Release Process](docs/release-process.md)
 - [Monitoring](docs/monitoring.md)
 - [Application Monitoring](docs/app-monitoring.md)
+- [Kubernetes Cluster Build](docs/kubernetes-cluster.md)
+- [Application Deployment](docs/app-deployment.md)
+- [Application Monitoring](docs/app-monitoring.md)
+- [Application Alerting](docs/app-alerting.md)
+- [Troubleshooting Notes](docs/troubleshooting.md)
