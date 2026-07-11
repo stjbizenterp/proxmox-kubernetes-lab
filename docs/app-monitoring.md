@@ -212,6 +212,58 @@ This validated:
 
 On this cluster/client version, `kubectl run --rm` required an attached container. The workaround was to create a temporary pod, read its logs, and then delete it manually.
 
+## Grafana Dashboard
+
+A Grafana dashboard was created for the `nginx-lab` application using Prometheus metrics scraped from the NGINX exporter.
+
+### Working Base Query
+
+```promql
+nginx_http_requests_total{namespace="devops-lab"}
+```
+
+This query was first built using Grafana's metric selector and label filter dropdowns.
+
+### Dashboard Panels
+
+Requests over the last 5 minutes:
+
+```promql
+sum(increase(nginx_http_requests_total{namespace="devops-lab"}[5m]))
+```
+
+Request rate by pod:
+
+```promql
+sum by (pod) (rate(nginx_http_requests_total{namespace="devops-lab"}[5m]))
+```
+
+Active connections:
+
+```promql
+sum(nginx_connections_active{namespace="devops-lab"})
+```
+
+Waiting connections:
+
+```promql
+sum(nginx_connections_waiting{namespace="devops-lab"})
+```
+
+### Note
+
+PromQL label values must be wrapped in double quotes:
+
+```promql
+namespace="devops-lab"
+```
+
+This is invalid:
+
+```promql
+namespace=devops-lab
+```
+
 ## Skills Practiced
 
 - Exporter sidecar pattern
