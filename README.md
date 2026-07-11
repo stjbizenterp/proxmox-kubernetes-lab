@@ -83,6 +83,11 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Exposed Prometheus through Ingress
 - [x] Verified Kubernetes metrics in Prometheus
 - [x] Explored Grafana dashboards
+- [x] Added NGINX Prometheus exporter sidecar
+- [x] Exposed application metrics on port `9113`
+- [x] Added ServiceMonitor for application scraping
+- [x] Verified app metrics in Prometheus
+- [x] Created basic Grafana panels for app metrics
 
 ## Documentation
 
@@ -97,3 +102,4 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [Immutable Image Tags](docs/immutable-image-tags.md)
 - [Release Process](docs/release-process.md)
 - [Monitoring](docs/monitoring.md)
+- [Application Monitoring](docs/app-monitoring.md)

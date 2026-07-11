@@ -33,7 +33,13 @@ ingress:
   pathType: Prefix
 
 configMapHtml:
-  enabled: false
+  enabled: true
+
+serviceMonitor:
+  enabled: true
+  interval: 30s
+  labels:
+    release: monitoring
 
 html:
   title: DevOps Lab
