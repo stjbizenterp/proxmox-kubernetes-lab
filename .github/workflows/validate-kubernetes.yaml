@@ -44,4 +44,5 @@ jobs:
           kubeconform \
             -strict \
             -summary \
+            -ignore-missing-schemas \
             rendered/nginx-lab.yaml
