@@ -117,7 +117,7 @@ This workflow validates Kubernetes and Helm resources by running:
 
 - `kubeconform`
 
-## Design Decision
+## NGINX Configuration
 
 The Docker image owns the application HTML content at:
 
@@ -125,6 +125,38 @@ The Docker image owns the application HTML content at:
 /usr/share/nginx/html/index.html
 ```
 
-The Kubernetes ConfigMap is used for NGINX configuration, including the stub_status endpoint required by the metrics exporter.
+The Kubernetes ConfigMap provides NGINX configuration at:
 
-This makes CI/CD behavior visible: changing app/nginx/index.html creates a new image and changes the running application after Helm upgrade.
+```text
+/etc/nginx/conf.d/default.conf
+```
+
+This config includes the `stub_status` endpoint used by the NGINX Prometheus exporter.
+
+## Design Decision
+
+The Docker image owns the app page content, while Kubernetes manages runtime configuration through a ConfigMap.
+
+This makes CI/CD behavior visible:
+
+```text
+Change app/nginx/index.html
+→ GitHub Actions builds and pushes a new image
+→ Helm values image tag is updated
+→ helm upgrade deploys the new image
+→ the running page changes
+```
+
+## Skills Practiced
+
+- Docker image builds
+
+- GitHub Actions
+
+- GitHub Container Registry
+
+- Immutable image tagging with Git SHA
+
+- Helm-based application deployment
+
+- Kubernetes rollout verification
