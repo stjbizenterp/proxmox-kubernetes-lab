@@ -1,0 +1,130 @@
+# CI/CD Pipeline
+
+## Overview
+
+The lab includes a GitHub Actions workflow that builds a custom NGINX image and pushes it to GitHub Container Registry.
+
+The image is used by the `nginx-lab` Helm chart.
+
+## Application Source
+
+The application source is located at:
+
+```text
+app/nginx/
+```
+
+Important files:
+
+- `Dockerfile`
+
+- `.dockerignore`
+
+- `index.html`
+
+## Image Build Workflow
+
+Workflow:
+
+```text
+.github/workflows/build-nginx-image.yaml
+```
+
+The workflow runs on changes to:
+
+```text
+app/nginx/**
+.github/workflows/build-nginx-image.yaml
+```
+
+The workflow:
+
+1.  Checks out the repository
+
+2.  Sets a lowercase GHCR image owner
+
+3.  Uses the short Git SHA as the image tag
+
+4.  Logs in to GitHub Container Registry
+
+5.  Builds the Docker image from app/nginx
+
+6.  Pushes the image to GHCR
+
+7.  Updates the Helm chart values.yaml image repository and tag
+
+8.  Commits the updated image tag back to the repository
+
+## Image Repository
+
+The image is published to:
+
+```text
+ghcr.io/stjbizenterp/devops-lab-nginx
+```
+
+## Helm Image Values
+
+The Helm chart uses:
+
+```yaml
+image:
+  repository: ghcr.io/stjbizenterp/devops-lab-nginx
+  tag: <short-git-sha>
+  pullPolicy: IfNotPresent
+  ```
+
+## Deployment Flow
+
+After the GitHub Actions workflow updates the image tag, the latest changes are pulled locally:
+
+```bash
+git pull
+```
+
+Then the application is upgraded with Helm:
+
+```bash
+helm upgrade nginx-lab kubernetes/charts/nginx-lab -n devops-lab
+```
+
+Verify rollout:
+
+```bash
+kubectl rollout status deployment nginx-lab -n devops-lab
+```
+
+Check the deployed image:
+
+```bash
+kubectl get deployment nginx-lab -n devops-lab -o jsonpath='{.spec.template.spec.containers[?(@.name=="nginx")].image}'
+echo
+```
+
+## Validation Workflow
+
+Workflow:
+
+```text
+.github/workflows/validate-kubernetes.yaml
+```
+
+This workflow validates Kubernetes and Helm resources by running:
+
+- `helm lint`
+
+- `helm template`
+
+- `kubeconform`
+
+## Design Decision
+
+The Docker image owns the application HTML content at:
+
+```text
+/usr/share/nginx/html/index.html
+```
+
+The Kubernetes ConfigMap is used for NGINX configuration, including the stub_status endpoint required by the metrics exporter.
+
+This makes CI/CD behavior visible: changing app/nginx/index.html creates a new image and changes the running application after Helm upgrade.

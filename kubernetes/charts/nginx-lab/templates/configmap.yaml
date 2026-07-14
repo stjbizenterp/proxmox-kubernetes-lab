@@ -2,51 +2,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.app.name }}-html
+  name: {{ .Values.app.name }}-config
   namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.app.name }}
 data:
-  index.html: |
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>{{ .Values.html.title }}</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          background: #0f172a;
-          color: #e2e8f0;
-          text-align: center;
-          padding-top: 80px;
-        }
-        .card {
-          background: #1e293b;
-          border-radius: 12px;
-          padding: 32px;
-          max-width: 700px;
-          margin: auto;
-          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        h1 {
-          color: #38bdf8;
-        }
-        code {
-          background: #020617;
-          padding: 4px 8px;
-          border-radius: 6px;
-          color: #facc15;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="card">
-        <h1>{{ .Values.html.heading }}</h1>
-        <p>{{ .Values.html.body }}</p>
-        <p>Namespace: <code>{{ .Values.html.namespaceText }}</code></p>
-        <p>{{ .Values.html.footer }}</p>
-      </div>
-    </body>
-    </html>
-
   default.conf: |
     server {
       listen 80;
