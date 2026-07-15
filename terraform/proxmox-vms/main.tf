@@ -21,19 +21,19 @@ locals {
       vmid   = 301
       ip     = "10.10.10.211"
       cores  = 2
-      memory = 2048
+      memory = 4096
     }
     k8s-tf-worker-01 = {
       vmid   = 302
       ip     = "10.10.10.212"
       cores  = 2
-      memory = 2048
+      memory = 4096
     }
     k8s-tf-worker-02 = {
       vmid   = 303
       ip     = "10.10.10.213"
       cores  = 2
-      memory = 2048
+      memory = 4096
     }
   }
 }
