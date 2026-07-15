@@ -64,7 +64,7 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Added Helm linting to CI
 - [x] Added Helm template rendering to CI
 - [x] Added Kubernetes manifest schema validation to CI
-- [x] Tightened kubeconform validation by removing ignored missing schemas
+- [x] Configured kubeconform validation to handle Prometheus Operator CRDs
 - [x] Practiced intentional CI failure and recovery
 - [x] Built custom NGINX container image
 - [x] Published image to GitHub Container Registry
@@ -88,17 +88,42 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Added ServiceMonitor for application scraping
 - [x] Verified app metrics in Prometheus
 - [x] Created basic Grafana panels for app metrics
+- [x] Added PrometheusRule alerts for app availability and request rate
+- [x] Validated alert firing and recovery through Prometheus and Alertmanager
+- [x] Added Terraform project for Proxmox VM provisioning
+- [x] Created Terraform variables, outputs, and example tfvars file
+- [x] Protected Terraform secrets and state files with `.gitignore`
+- [x] Tested Terraform provider authentication against Proxmox
+- [x] Troubleshot Telmate Proxmox provider permission issues
+- [x] Migrated Terraform configuration to the `bpg/proxmox` provider
+- [x] Provisioned Terraform-managed Proxmox VMs from the Ubuntu cloud-init template
+- [x] Verified Terraform-created VM IDs, static IPs, hostnames, and SSH access
+- [x] Documented Terraform provider choice and Proxmox provisioning workflow
 
 ## Current Lab Capabilities
 
 - Provisioned a three-node Kubernetes cluster on Proxmox
+- Built a reusable Ubuntu 24.04 cloud-init VM template
+- Configured static IP addressing for Kubernetes nodes
 - Deployed an NGINX application using Helm
 - Exposed the application with NodePort and Ingress
+- Built and published a custom NGINX container image to GitHub Container Registry
+- Automated image builds and Helm image tag updates with GitHub Actions
+- Used immutable image tags for repeatable Kubernetes deployments
+- Added GitHub Actions validation for Helm charts and rendered Kubernetes manifests
 - Added an NGINX Prometheus exporter sidecar
 - Configured Prometheus scraping with a ServiceMonitor
 - Built Grafana panels for NGINX request and connection metrics
 - Added PrometheusRule alerts for app availability and request rate
 - Validated alert firing and recovery through Prometheus and Alertmanager
+- Installed kube-prometheus-stack with Helm
+- Deployed Prometheus, Grafana, Alertmanager, kube-state-metrics, and node-exporter
+- Exposed Grafana and Prometheus through Ingress
+- Provisioned additional Proxmox VMs using Terraform
+- Used Terraform variables, outputs, and example tfvars files for reusable infrastructure code
+- Protected local Terraform secrets and state from being committed to Git
+- Migrated from the Telmate Proxmox provider to the `bpg/proxmox` provider after troubleshooting provider permission issues
+- Verified Terraform-managed VM creation, static IP assignment, and SSH access
 
 ## Documentation
 
@@ -120,3 +145,20 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [Application Alerting](docs/app-alerting.md)
 - [CI/CD Pipeline](docs/cicd.md)
 - [Terraform Proxmox VM Provisioning](terraform/proxmox-vms/README.md)
+
+## Infrastructure as Code
+
+This lab includes Terraform configuration for provisioning Proxmox VMs from the Ubuntu cloud-init template.
+
+Terraform project:
+
+- [Proxmox VM Provisioning](terraform/proxmox-vms/README.md)
+
+The Terraform configuration provisions three test VMs with static IP addresses:
+
+| Hostname | VM ID | IP Address |
+| `k8s-tf-cp-01` | 301 | `10.10.10.211` |
+| `k8s-tf-worker-01` | 302 | `10.10.10.212` |
+| `k8s-tf-worker-02` | 303 | `10.10.10.213` |
+
+The project uses the `bpg/proxmox` provider after troubleshooting API token permission issues with the Telmate provider.
