@@ -118,5 +118,4 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [Application Deployment](docs/app-deployment.md)
 - [Application Monitoring](docs/app-monitoring.md)
 - [Application Alerting](docs/app-alerting.md)
-- [Troubleshooting Notes](docs/troubleshooting.md)
 - [CI/CD Pipeline](docs/cicd.md)
