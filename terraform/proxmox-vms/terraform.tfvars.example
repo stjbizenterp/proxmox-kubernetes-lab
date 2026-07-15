@@ -1,0 +1,13 @@
+proxmox_api_url          = "https://10.10.10.X:8006/"
+proxmox_api_token_id     = "terraform@pve!lab"
+proxmox_api_token_secret = "REPLACE_WITH_TOKEN_SECRET"
+
+proxmox_node  = "pve"
+template_vmid = 9000
+vm_storage    = "local-lvm"
+
+network_bridge      = "vmbr0"
+gateway             = "10.10.10.1"
+nameserver          = "10.10.10.1"
+ci_user             = "devops"
+ssh_public_key_path = "~/.ssh/id_rsa.pub"
