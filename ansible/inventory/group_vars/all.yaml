@@ -12,3 +12,5 @@ kubernetes_packages:
   - kubelet
   - kubeadm
   - kubectl
+
+flannel_manifest_url: "https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"

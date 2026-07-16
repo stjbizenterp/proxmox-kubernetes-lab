@@ -105,6 +105,11 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Confirmed Ansible playbook idempotency
 - [x] Added Kubernetes prerequisites Ansible playbook
 - [x] Automated containerd installation and Kubernetes package setup
+- [x] Added Ansible kubeadm control plane bootstrap playbook
+- [x] Added Ansible worker join playbook
+- [x] Bootstrapped Terraform-managed Kubernetes cluster with Ansible
+- [x] Installed Flannel CNI through Ansible
+- [x] Verified Ansible-built Kubernetes node readiness
 
 ## Current Lab Capabilities
 
@@ -133,6 +138,8 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - Configured Terraform-created VMs with Ansible
 - Automated common Linux baseline configuration with Ansible
 - Automated Kubernetes prerequisites including containerd, kernel modules, sysctl settings, and Kubernetes packages
+- Bootstrapped a Kubernetes cluster on Terraform-managed VMs using Ansible and kubeadm
+- Automated control plane initialization, Flannel CNI installation, and worker node joins
 
 ## Documentation
 

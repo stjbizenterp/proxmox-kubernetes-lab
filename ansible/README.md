@@ -138,3 +138,38 @@ ssh devops@10.10.10.211 "sudo grep SystemdCgroup /etc/containerd/config.toml"
 ```
 
 Be careful with nested code fences if editing manually. If it gets annoying, just paste the section without the inner fenced command blocks.
+
+## Kubernetes Bootstrap
+
+The Kubernetes cluster can be bootstrapped with kubeadm using Ansible.
+
+Initialize the control plane:
+
+```bash
+ansible-playbook ansible/playbooks/kubeadm-init.yaml
+```
+
+Join worker nodes:
+
+```bash
+ansible-playbook ansible/playbooks/kubeadm-join.yaml
+```
+
+Verify the cluster:
+
+```bash
+ssh devops@10.10.10.211 'kubectl get nodes -o wide'
+ssh devops@10.10.10.211 'kubectl get pods -A'
+```
+
+The bootstrap playbooks:
+
+- Initialize the control plane with `kubeadm init`
+
+- Configure kubeconfig for the `devops` user
+
+- Install Flannel CNI
+
+- Generate a worker join command
+
+- Join worker nodes to the cluster
