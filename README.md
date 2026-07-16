@@ -10,6 +10,36 @@ The purpose of this lab is to rebuild and demonstrate hands-on DevOps skills, in
 
 This lab uses immutable Git SHA-based container image tags for Kubernetes deployments instead of relying on the mutable `latest` tag.
 
+Here is complete self-hosted DevOps workflow:
+
+```text
+Developer Workstation
+        |
+        | Terraform
+        v
+Proxmox VE
+        |
+        | Ubuntu 24.04 cloud-init template
+        v
+Terraform-managed VMs
+        |
+        | Ansible
+        v
+Kubernetes cluster with kubeadm
+        |
+        | Helm
+        v
+NGINX lab application
+        |
+        | GitHub Actions
+        v
+Container image build + Helm image tag update
+        |
+        | kube-prometheus-stack
+        v
+Prometheus, Grafana, Alertmanager
+```
+
 ## Current Lab Architecture
 
 | VM ID | Hostname | Role | vCPU | RAM | Disk | IP |
@@ -100,15 +130,16 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Verified Terraform-created VM IDs, static IPs, hostnames, and SSH access
 - [x] Documented Terraform provider choice and Proxmox provisioning workflow
 - [x] Added Ansible inventory for Terraform-managed Proxmox VMs
-- [x] Verified Ansible connectivity with ping module
-- [x] Added common baseline Ansible playbook
+- [x] Verified Ansible connectivity with the ping module
+- [x] Added common Linux baseline Ansible playbook
 - [x] Confirmed Ansible playbook idempotency
 - [x] Added Kubernetes prerequisites Ansible playbook
 - [x] Automated containerd installation and Kubernetes package setup
+- [x] Automated Kubernetes kernel module and sysctl configuration
 - [x] Added Ansible kubeadm control plane bootstrap playbook
 - [x] Added Ansible worker join playbook
-- [x] Bootstrapped Terraform-managed Kubernetes cluster with Ansible
 - [x] Installed Flannel CNI through Ansible
+- [x] Bootstrapped Terraform-managed Kubernetes cluster with Ansible
 - [x] Verified Ansible-built Kubernetes node readiness
 
 ## Current Lab Capabilities
@@ -140,6 +171,7 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - Automated Kubernetes prerequisites including containerd, kernel modules, sysctl settings, and Kubernetes packages
 - Bootstrapped a Kubernetes cluster on Terraform-managed VMs using Ansible and kubeadm
 - Automated control plane initialization, Flannel CNI installation, and worker node joins
+- Verified repeatable infrastructure provisioning and configuration management workflow
 
 ## Documentation
 

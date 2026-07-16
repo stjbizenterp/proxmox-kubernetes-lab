@@ -173,3 +173,24 @@ The bootstrap playbooks:
 - Generate a worker join command
 
 - Join worker nodes to the cluster
+
+## Full Ansible Workflow
+
+Run playbooks in this order from the repository root:
+
+```bash
+ansible-playbook ansible/playbooks/ping.yaml
+ansible-playbook ansible/playbooks/common.yaml
+ansible-playbook ansible/playbooks/kubernetes-prereqs.yaml
+ansible-playbook ansible/playbooks/kubeadm-init.yaml
+ansible-playbook ansible/playbooks/kubeadm-join.yaml
+```
+
+Verify the cluster:
+
+```bash
+ssh devops@10.10.10.211 'kubectl get nodes -o wide'
+ssh devops@10.10.10.211 'kubectl get pods -A'
+```
+
+This workflow provisions a Kubernetes-ready cluster on Terraform-managed Proxmox VMs.
