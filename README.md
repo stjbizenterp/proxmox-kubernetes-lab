@@ -162,3 +162,7 @@ The Terraform configuration provisions three test VMs with static IP addresses:
 | `k8s-tf-worker-02` | 303 | `10.10.10.213` |
 
 The project uses the `bpg/proxmox` provider after troubleshooting API token permission issues with the Telmate provider.
+
+## Configuration Management
+
+- [Ansible Configuration Management](ansible/README.md)

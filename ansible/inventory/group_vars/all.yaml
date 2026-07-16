@@ -1,0 +1,14 @@
+---
+timezone: "America/Chicago"
+
+kubernetes_version: "1.30"
+pod_network_cidr: "10.244.0.0/16"
+
+k8s_control_plane_endpoint: "10.10.10.211"
+
+containerd_config_path: "/etc/containerd/config.toml"
+
+kubernetes_packages:
+  - kubelet
+  - kubeadm
+  - kubectl

@@ -1,0 +1,120 @@
+---
+- name: Configure Kubernetes prerequisites
+  hosts: k8s_cluster
+  become: true
+  gather_facts: true
+
+  tasks:
+    - name: Load required kernel modules immediately
+      ansible.builtin.modprobe:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - overlay
+        - br_netfilter
+
+    - name: Persist required kernel modules
+      ansible.builtin.copy:
+        dest: /etc/modules-load.d/k8s.conf
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          overlay
+          br_netfilter
+
+    - name: Configure Kubernetes sysctl settings
+      ansible.builtin.copy:
+        dest: /etc/sysctl.d/k8s.conf
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          net.bridge.bridge-nf-call-iptables = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+          net.ipv4.ip_forward = 1
+      notify: Reload sysctl
+
+    - name: Install containerd
+      ansible.builtin.apt:
+        name: containerd
+        state: present
+        update_cache: true
+
+    - name: Ensure containerd config directory exists
+      ansible.builtin.file:
+        path: /etc/containerd
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Generate default containerd config if missing
+      ansible.builtin.shell: |
+        containerd config default > {{ containerd_config_path }}
+      args:
+        creates: "{{ containerd_config_path }}"
+      notify: Restart containerd
+
+    - name: Enable SystemdCgroup in containerd
+      ansible.builtin.replace:
+        path: "{{ containerd_config_path }}"
+        regexp: 'SystemdCgroup = false'
+        replace: 'SystemdCgroup = true'
+      notify: Restart containerd
+
+    - name: Ensure containerd is enabled and running
+      ansible.builtin.systemd:
+        name: containerd
+        enabled: true
+        state: started
+
+    - name: Ensure Kubernetes apt keyring directory exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Download Kubernetes apt repository signing key
+      ansible.builtin.get_url:
+        url: "https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/Release.key"
+        dest: "/tmp/kubernetes-apt-release.key"
+        mode: "0644"
+
+    - name: Convert Kubernetes apt key to keyring
+      ansible.builtin.command:
+        cmd: "gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /tmp/kubernetes-apt-release.key"
+        creates: "/etc/apt/keyrings/kubernetes-apt-keyring.gpg"
+
+    - name: Add Kubernetes apt repository
+      ansible.builtin.copy:
+        dest: /etc/apt/sources.list.d/kubernetes.list
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v{{ kubernetes_version }}/deb/ /
+
+    - name: Install Kubernetes packages
+      ansible.builtin.apt:
+        name: "{{ kubernetes_packages }}"
+        state: present
+        update_cache: true
+
+    - name: Hold Kubernetes packages
+      ansible.builtin.dpkg_selections:
+        name: "{{ item }}"
+        selection: hold
+      loop: "{{ kubernetes_packages }}"
+
+  handlers:
+    - name: Reload sysctl
+      ansible.builtin.command: sysctl --system
+      changed_when: true
+
+    - name: Restart containerd
+      ansible.builtin.systemd:
+        name: containerd
+        state: restarted
