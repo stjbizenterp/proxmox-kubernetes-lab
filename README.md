@@ -99,6 +99,12 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - [x] Provisioned Terraform-managed Proxmox VMs from the Ubuntu cloud-init template
 - [x] Verified Terraform-created VM IDs, static IPs, hostnames, and SSH access
 - [x] Documented Terraform provider choice and Proxmox provisioning workflow
+- [x] Added Ansible inventory for Terraform-managed Proxmox VMs
+- [x] Verified Ansible connectivity with ping module
+- [x] Added common baseline Ansible playbook
+- [x] Confirmed Ansible playbook idempotency
+- [x] Added Kubernetes prerequisites Ansible playbook
+- [x] Automated containerd installation and Kubernetes package setup
 
 ## Current Lab Capabilities
 
@@ -124,6 +130,9 @@ This lab uses immutable Git SHA-based container image tags for Kubernetes deploy
 - Protected local Terraform secrets and state from being committed to Git
 - Migrated from the Telmate Proxmox provider to the `bpg/proxmox` provider after troubleshooting provider permission issues
 - Verified Terraform-managed VM creation, static IP assignment, and SSH access
+- Configured Terraform-created VMs with Ansible
+- Automated common Linux baseline configuration with Ansible
+- Automated Kubernetes prerequisites including containerd, kernel modules, sysctl settings, and Kubernetes packages
 
 ## Documentation
 

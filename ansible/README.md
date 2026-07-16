@@ -19,9 +19,9 @@ The Ansible milestone demonstrates configuration management on top of infrastruc
 ```text
 ansible/
 ├── inventory/
-│   ├── homelab.ini
-│   └── group_vars/
-│       └── all.yaml
+│   ├── group_vars/
+│   │   └── all.yaml
+│   └── homelab.ini
 ├── playbooks/
 │   ├── ping.yaml
 │   └── common.yaml
@@ -101,3 +101,40 @@ The earlier manually configured Kubernetes cluster used:
 ```text
 10.10.10.201-203
 ```
+
+## Kubernetes Prerequisites
+
+Run the Kubernetes prerequisites playbook:
+
+```bash
+ansible-playbook ansible/playbooks/kubernetes-prereqs.yaml
+```
+
+This playbook configures all Kubernetes nodes by:
+
+- Loading `overlay` and `br_netfilter` kernel modules
+
+- Persisting required kernel modules across reboots
+
+- Configuring Kubernetes networking sysctl settings
+
+- Installing and configuring `containerd`
+
+- Enabling `SystemdCgroup` for containerd
+
+- Adding the Kubernetes apt repository
+
+- Installing `kubelet`, `kubeadm`, and `kubectl`
+
+- Holding Kubernetes packages to avoid unintended upgrades
+
+Verification examples:
+
+```bash
+ssh devops@10.10.10.211 'containerd --version && kubeadm version && kubelet --version && kubectl version --client'
+ssh devops@10.10.10.211 'swapon --show'
+ssh devops@10.10.10.211 'sysctl net.ipv4.ip_forward net.bridge.bridge-nf-call-iptables'
+ssh devops@10.10.10.211 "sudo grep SystemdCgroup /etc/containerd/config.toml"
+```
+
+Be careful with nested code fences if editing manually. If it gets annoying, just paste the section without the inner fenced command blocks.
