@@ -94,6 +94,18 @@ If needed, remove the namespace:
 kubectl delete namespace devops-lab
 ```
 
+## Monitoring Release Label
+
+The `nginx-lab` Helm chart creates a `ServiceMonitor` so Prometheus can scrape the NGINX exporter metrics endpoint.
+
+The `ServiceMonitor` must include a `release` label matching the `kube-prometheus-stack` Helm release name:
+
+```yaml
+release: kube-prometheus-stack
+```
+
+The Prometheus instance created by kube-prometheus-stack uses this label to discover ServiceMonitor resources.
+
 ## Skills Practiced
 
 - Helm chart structure

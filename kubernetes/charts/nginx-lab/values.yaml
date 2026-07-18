@@ -28,7 +28,7 @@ nodePort:
 ingress:
   enabled: true
   className: nginx
-  host: nginx-lab.10.10.10.201.nip.io
+  host: nginx-lab.10.10.10.211.nip.io
   path: /
   pathType: Prefix
 
@@ -39,7 +39,7 @@ serviceMonitor:
   enabled: true
   interval: 30s
   labels:
-    release: monitoring
+    release: kube-prometheus-stack
 
 prometheusRule:
   enabled: true

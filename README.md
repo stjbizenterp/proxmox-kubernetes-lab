@@ -141,6 +141,9 @@ Prometheus, Grafana, Alertmanager
 - [x] Installed Flannel CNI through Ansible
 - [x] Bootstrapped Terraform-managed Kubernetes cluster with Ansible
 - [x] Verified Ansible-built Kubernetes node readiness
+- [x] Updated nginx-lab ServiceMonitor label to match kube-prometheus-stack release selector
+- [x] Verified Prometheus target discovery for nginx-lab
+- [x] Verified Grafana dashboard queries against nginx-lab metrics
 
 ## Current Lab Capabilities
 

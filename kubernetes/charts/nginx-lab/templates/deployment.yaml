@@ -48,6 +48,7 @@ spec:
           ports:
             - name: metrics
               containerPort: 9113
+              protocol: TCP
 
 {{- if .Values.configMapHtml.enabled }}
       volumes:
