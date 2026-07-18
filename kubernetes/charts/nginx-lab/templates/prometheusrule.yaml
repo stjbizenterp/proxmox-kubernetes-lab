@@ -6,7 +6,9 @@ metadata:
   namespace: {{ .Values.namespace.name }}
   labels:
     app: {{ .Values.app.name }}
-    release: monitoring
+    {{- with .Values.prometheusRule.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   groups:
     - name: {{ .Values.app.name }}.rules

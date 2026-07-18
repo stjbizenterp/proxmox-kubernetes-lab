@@ -43,6 +43,8 @@ serviceMonitor:
 
 prometheusRule:
   enabled: true
+  labels:
+    release: kube-prometheus-stack
 
 html:
   title: DevOps Lab
