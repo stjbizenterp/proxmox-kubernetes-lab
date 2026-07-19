@@ -40,6 +40,8 @@ Container image build + Helm image tag update
 Prometheus, Grafana, Alertmanager
 ```
 
+For a full technical walkthrough of the project, see [Project Walkthrough](docs/project-walkthrough.md).
+
 ## Current Lab Architecture
 
 | VM ID | Hostname | Role | vCPU | RAM | Disk | IP |
